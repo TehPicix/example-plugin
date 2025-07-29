@@ -37,7 +37,7 @@ jobs:
       # Get version from gradle.properties
       - name: Get Version
         id: get_version
-        run: echo "version=$(grep '^version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+        run: echo "version=$(grep '^plugin_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       - name: Build with Gradle Wrapper
         run: |
