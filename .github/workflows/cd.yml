@@ -38,7 +38,7 @@ jobs:
       - name: Get Version
         id: get_version
         run: |
-          version=$(grep '^plugin_version=' gradle.properties | cut -d'=' -f2 | xargs)
+          version=$(grep '^plugin_version' gradle.properties | cut -d'=' -f2 | xargs)
           echo "version=$version" >> $GITHUB_ENV
           echo "Version is $version"
 
