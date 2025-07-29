@@ -14,6 +14,8 @@ on:
   pull_request:
     branches:
       - master
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -37,15 +39,15 @@ jobs:
       # Get version from gradle.properties setting it as an environment variable
       - name: Get Version
         id: get_version
-        run: echo "version=$(grep '^plugin_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
+        run: |
+          version=$(grep '^plugin_version=' gradle.properties | cut -d'=' -f2 | xargs)
+          echo "version=$version" >> $GITHUB_ENV
 
       - name: Build with Gradle Wrapper
         run: gradle build
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           draft: false
           generate_release_notes: true
