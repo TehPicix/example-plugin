@@ -40,9 +40,7 @@ jobs:
         run: echo "version=$(grep '^plugin_version=' gradle.properties | cut -d'=' -f2)" >> $GITHUB_ENV
 
       - name: Build with Gradle Wrapper
-        run: |
-          chmod +x ./gradlew
-          ./gradlew build
+        run: gradle build
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
