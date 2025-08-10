@@ -4,7 +4,6 @@
 # documentation.
 # This workflow will build a Java project with Gradle and cache/restore any dependencies to improve the workflow execution time
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle
-
 name: Continuous Deployment
 
 on:
@@ -24,10 +23,8 @@ jobs:
           java-version: "21"
           distribution: "microsoft"
 
-      # Configure Gradle for optimal use in GitHub Actions, including caching of downloaded dependencies.
-      # See: https://github.com/gradle/actions/blob/main/setup-gradle/README.md
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@af1da67850ed9a4cedd57bfd976089dd991e2582 # v4.0.0
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
 
       # Get version from gradle.properties setting it as an environment variable
       - name: Get Version
@@ -35,10 +32,9 @@ jobs:
         run: |
           version=$(grep '^plugin_version' gradle.properties | cut -d'=' -f2 | xargs)
           echo "version=$version" >> $GITHUB_ENV
-          echo "Version is $version"
 
       - name: Build with Gradle Wrapper
-        run: gradle build
+        run: ./gradlew build --no-daemon
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
